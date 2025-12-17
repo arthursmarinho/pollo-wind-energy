@@ -1,0 +1,24 @@
+name: Ping Multiple Backends
+
+on:
+  schedule:
+    - cron: "*/10 * * * *" # a cada 10 minutos
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping all URLs
+        run: |
+          urls=(
+            "https://talents-back-x9oa.onrender.com/"
+            "https://spigify-front.onrender.com/"
+            "https://spigify-back.onrender.com/"
+            "https://frendz-back-na5m.onrender.com/"
+          )
+
+          for url in "${urls[@]}"; do
+            echo "Pinging $url..."
+            curl -s "$url" || echo "Falhou: $url"
+          done
